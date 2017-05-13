@@ -1,0 +1,25 @@
+---
+
+- name: Gather Facts
+  setup:
+
+#- name: Ensure the algo ssh key exist on the server
+#  authorized_key:
+#    user: "{{ ansible_ssh_user }}"
+#    state: present
+#    key: "{{ lookup('file', '{{ SSH_keys.public }}') }}"
+#  tags: [ 'cloud' ]
+
+- name: Enable IPv6
+  set_fact:
+    ipv6_support: true
+  when: ansible_default_ipv6.gateway is defined
+
+- name: Set facts if the deployment in a cloud
+  set_fact:
+    cloud_deployment: true
+  tags: ['cloud']
+
+- name: Define the commonName
+  set_fact:
+    IP_subject_alt_name: "{{ IP_subject_alt_name }}"
