@@ -19,7 +19,3 @@
   set_fact:
     cloud_deployment: true
   tags: ['cloud']
-
-- name: Define the commonName
-  set_fact:
-    IP_subject_alt_name: "{{ IP_subject_alt_name }}"
