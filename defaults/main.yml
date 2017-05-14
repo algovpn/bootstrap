@@ -1,2 +1,5 @@
 ---
 # defaults file for bootstrap
+
+# IP address for the local dns resolver
+local_service_ip: 172.16.0.1

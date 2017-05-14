@@ -5,8 +5,6 @@
 
 - name: Ubuntu | Configure defaults
   raw: sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
-  tags:
-    - update-alternatives
 
 - name: Install software updates
   apt: update_cache=yes upgrade=dist
