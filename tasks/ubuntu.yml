@@ -88,6 +88,8 @@
       - iptables-persistent
       - cgroup-tools
       - openssl
+      - libssl-dev
+      - python-pip
     sysctl:
       - item: net.ipv4.ip_forward
         value: 1

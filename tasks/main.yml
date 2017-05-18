@@ -14,3 +14,41 @@
   when: '"FreeBSD" in OS.stdout'
 
 - include: facts/main.yml
+
+
+- block:
+    - include: ubuntu.yml
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+    - include: freebsd.yml
+      when: ansible_distribution == 'FreeBSD'
+
+    - name: Install tools
+      package: name="{{ item }}" state=present
+      with_items:
+        - "{{ tools|default([]) }}"
+      tags:
+        - always
+
+    - name: Install python modules
+      pip:
+        name: pyOpenSSL
+        version: 17.0.0
+
+    - name: Sysctl tuning
+      sysctl: name="{{ item.item }}" value="{{ item.value }}"
+      with_items:
+        - "{{ sysctl|default([]) }}"
+      tags:
+        - always
+
+    - name: Register the remote host name for deletegate_to tasks
+      set_fact:
+        remote_host: "{{ ansible_host }}"
+
+    - meta: flush_handlers
+  rescue:
+    - debug: var=fail_hint
+      tags: always
+    - fail:
+      tags: always
